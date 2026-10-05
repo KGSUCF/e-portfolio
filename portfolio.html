@@ -1,0 +1,849 @@
+<title>Karen Strouse</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap">
+<style>
+/* Layout: dark navy masthead, editorial section numbers, single-column body */
+:root {
+  --bg:       #F5F3EF;
+  --surf:     #FFFFFF;
+  --surf2:    #ECEAE5;
+  --bdr:      #D8D5CE;
+  --fg:       #18160E;
+  --fg2:      #6B6760;
+  --fg3:      #A09C93;
+  --ink:      #1A3A58;
+  --ink-lt:   #E6EFF7;
+  --gold:     #B07B26;
+  --gold-lt:  #FBF4E4;
+  --num:      rgba(24,22,14,.07);
+  /* masthead stays dark in both themes */
+  --hero:     #0C1F33;
+  --hero-fg:  #EDF2F8;
+  --hero-fg2: #7A9AB8;
+  --hero-bdr: rgba(255,255,255,.1);
+  --hero-chip:#142840;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:     #131210;
+    --surf:   #1C1A18;
+    --surf2:  #232220;
+    --bdr:    #2D2B27;
+    --fg:     #ECE8E0;
+    --fg2:    #948F86;
+    --fg3:    #625E57;
+    --ink:    #5D9FD4;
+    --ink-lt: #192230;
+    --gold:   #C99230;
+    --gold-lt:#27200F;
+    --num:    rgba(236,232,224,.07);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:     #131210;
+  --surf:   #1C1A18;
+  --surf2:  #232220;
+  --bdr:    #2D2B27;
+  --fg:     #ECE8E0;
+  --fg2:    #948F86;
+  --fg3:    #625E57;
+  --ink:    #5D9FD4;
+  --ink-lt: #192230;
+  --gold:   #C99230;
+  --gold-lt:#27200F;
+  --num:    rgba(236,232,224,.07);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  padding-inline: 16px;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 50;
+  background: var(--hero);
+  margin-inline: -16px;
+  padding-inline: clamp(16px, 4vw, 48px);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 50px;
+  border-bottom: 1px solid var(--hero-bdr);
+}
+.nav-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--hero-fg);
+  letter-spacing: .2px;
+}
+.nav-links { display: flex; gap: 24px; list-style: none; }
+.nav-links a {
+  color: var(--hero-fg2);
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  transition: color .15s;
+}
+.nav-links a:hover { color: var(--hero-fg); }
+@media (max-width: 580px) { .nav-links { display: none; } }
+
+/* ── WRAPPER ── */
+.wrap { max-width: 840px; margin-inline: auto; }
+
+/* ── MASTHEAD ── */
+.masthead {
+  background: var(--hero);
+  margin-inline: -16px;
+  padding-inline: clamp(16px, 4vw, 48px);
+  padding-block: 64px 0;
+}
+.gold-bar {
+  width: 40px; height: 4px;
+  background: var(--gold);
+  border-radius: 2px;
+  margin-bottom: 24px;
+}
+h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(44px, 10vw, 80px);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -2px;
+  color: var(--hero-fg);
+  text-wrap: balance;
+}
+.tagline {
+  margin-top: 16px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(16px, 2.5vw, 20px);
+  font-style: italic;
+  color: var(--hero-fg2);
+  max-width: 520px;
+  line-height: 1.45;
+}
+.hero-chips {
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  padding-bottom: 32px;
+}
+.hchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border-radius: 4px;
+  background: var(--hero-chip);
+  border: 1px solid var(--hero-bdr);
+  font-size: 13px;
+  color: var(--hero-fg2);
+  text-decoration: none;
+  transition: border-color .15s, color .15s;
+}
+a.hchip:hover { border-color: rgba(255,255,255,.35); color: var(--hero-fg); }
+
+/* ── STATS STRIP ── */
+.stats-strip {
+  background: var(--hero);
+  margin-inline: -16px;
+  padding-inline: clamp(16px, 4vw, 48px);
+  border-bottom: 1px solid var(--hero-bdr);
+}
+.stats {
+  display: flex;
+  align-items: stretch;
+  border-top: 1px solid var(--hero-bdr);
+  max-width: 840px;
+  margin-inline: auto;
+}
+.stat {
+  flex: 1;
+  padding: 20px 0;
+  text-align: center;
+}
+.stat + .stat { border-left: 1px solid var(--hero-bdr); }
+.stat-n {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(28px, 5vw, 40px);
+  font-weight: 700;
+  color: var(--hero-fg);
+  line-height: 1;
+  letter-spacing: -1px;
+}
+.stat-n sup {
+  font-size: .55em;
+  vertical-align: super;
+  letter-spacing: 0;
+}
+.stat-l {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color: var(--hero-fg2);
+  margin-top: 5px;
+}
+@media (max-width: 480px) {
+  .stats { flex-wrap: wrap; }
+  .stat { flex: 1 1 50%; }
+  .stat:nth-child(odd):not(:last-child) { border-bottom: 1px solid var(--hero-bdr); }
+  .stat:nth-child(3) { border-left: none; }
+}
+
+/* ── SECTION BASE ── */
+.sec { padding-block: 52px; }
+.sec + .sec { border-top: 1px solid var(--bdr); }
+
+.sec-hd {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  margin-bottom: 32px;
+}
+.sec-num {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 72px;
+  font-weight: 700;
+  line-height: .82;
+  color: var(--num);
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -3px;
+  user-select: none;
+}
+.sec-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--fg);
+  line-height: 1;
+  text-wrap: balance;
+}
+
+/* ── ABOUT ── */
+.about-body p { color: var(--fg2); max-width: 640px; }
+.about-body p + p { margin-top: 14px; }
+.skills {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(172px, 1fr));
+  gap: 8px;
+  margin-top: 28px;
+}
+.skill {
+  padding: 9px 14px;
+  background: var(--surf);
+  border: 1px solid var(--bdr);
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fg2);
+}
+
+/* ── EXPERIENCE ── */
+.timeline { display: flex; flex-direction: column; }
+.tl {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 0 28px;
+  padding-bottom: 30px;
+  position: relative;
+}
+.tl:last-child { padding-bottom: 0; }
+.tl::after {
+  content: '';
+  position: absolute;
+  left: 109px; top: 12px; bottom: 0;
+  width: 1px; background: var(--bdr);
+}
+.tl:last-child::after { display: none; }
+.tl-dot {
+  position: absolute;
+  left: 103px; top: 5px;
+  width: 13px; height: 13px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 3px solid var(--bg);
+}
+.tl-yr {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--fg3);
+  padding-top: 2px;
+  text-align: right;
+  letter-spacing: .2px;
+  font-variant-numeric: tabular-nums;
+}
+.tl-role { font-size: 15.5px; font-weight: 600; color: var(--fg); line-height: 1.3; }
+.tl-org { font-size: 13px; color: var(--fg2); margin-top: 3px; }
+@media (max-width: 480px) {
+  .tl { grid-template-columns: 72px 1fr; gap: 0 20px; }
+  .tl::after { left: 71px; }
+  .tl-dot { left: 65px; }
+}
+
+/* ── ENGAGEMENTS ── */
+.eng-group { margin-bottom: 36px; }
+.eng-group:last-child { margin-bottom: 0; }
+.eng-group-hd {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: var(--fg3);
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--bdr);
+}
+.eng-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+@media (max-width: 580px) { .eng-grid { grid-template-columns: 1fr; } }
+.eng-card {
+  padding: 15px 17px;
+  background: var(--surf);
+  border: 1px solid var(--bdr);
+  border-radius: 5px;
+  transition: border-color .15s;
+}
+.eng-card:hover { border-color: var(--ink); }
+.eng-t {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+  margin-bottom: 5px;
+  line-height: 1.35;
+}
+.eng-d { font-size: 12px; color: var(--fg2); line-height: 1.6; }
+
+/* ── PUBLICATIONS ── */
+.pub-grp { margin-bottom: 36px; }
+.pub-grp:last-child { margin-bottom: 0; }
+.pub-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--fg3);
+  margin-bottom: 14px;
+}
+.books { display: flex; flex-direction: column; gap: 15px; }
+.book { display: flex; gap: 16px; align-items: flex-start; }
+.book-spine {
+  width: 7px;
+  min-height: 48px;
+  align-self: stretch;
+  background: var(--gold);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.book-t {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ink);
+  text-decoration: none;
+}
+.book-t:hover { text-decoration: underline; }
+.book-m { font-size: 12px; color: var(--fg3); margin-top: 3px; }
+
+.articles { display: flex; flex-direction: column; }
+.art {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding-block: 9px;
+  border-bottom: 1px solid var(--bdr);
+  font-size: 13.5px;
+}
+.art:last-child { border-bottom: none; }
+.art-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+.art-title { color: var(--fg); flex: 1; min-width: 0; }
+.art-venue { font-size: 11.5px; color: var(--fg3); white-space: nowrap; flex-shrink: 0; }
+@media (max-width: 500px) {
+  .art { flex-wrap: wrap; }
+  .art-venue { white-space: normal; padding-left: 15px; }
+}
+
+.talks { display: flex; flex-direction: column; gap: 9px; }
+.talk { padding: 11px 15px; background: var(--surf2); border-radius: 4px; font-size: 13px; }
+.talk-t { font-weight: 500; color: var(--fg); }
+.talk-v { font-size: 12px; color: var(--fg3); margin-top: 2px; }
+
+/* ── OTHER WORKS ── */
+.other-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(192px, 1fr));
+  gap: 11px;
+}
+.other-card {
+  padding: 14px 16px;
+  background: var(--surf);
+  border: 1px solid var(--bdr);
+  border-radius: 5px;
+  transition: border-color .15s;
+}
+.other-card:hover { border-color: var(--gold); }
+.other-type {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 5px;
+}
+.other-t { font-size: 13.5px; font-weight: 500; color: var(--fg); line-height: 1.4; }
+.other-d { font-size: 12px; color: var(--fg3); margin-top: 4px; }
+
+/* ── EDUCATION ── */
+.edu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+  gap: 11px;
+}
+.edu-card {
+  padding: 15px 17px;
+  background: var(--surf);
+  border: 1px solid var(--bdr);
+  border-left: 3px solid var(--ink);
+  border-radius: 0 5px 5px 0;
+}
+.edu-deg { font-size: 17px; font-weight: 700; color: var(--ink); font-family: 'Cormorant Garamond', Georgia, serif; }
+.edu-field { font-size: 13px; font-weight: 500; color: var(--fg); margin-top: 2px; }
+.edu-school { font-size: 12px; color: var(--fg3); margin-top: 5px; }
+
+/* ── CONTACT ── */
+.contact-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.c-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 19px;
+  background: var(--surf);
+  border: 1px solid var(--bdr);
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--fg);
+  text-decoration: none;
+}
+a.c-item { transition: border-color .15s, color .15s; }
+a.c-item:hover { border-color: var(--ink); color: var(--ink); }
+.c-copy {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border: 1px solid var(--bdr);
+  border-radius: 3px;
+  background: var(--surf2);
+  color: var(--fg2);
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.c-copy:hover { background: var(--ink-lt); color: var(--ink); }
+.c-copy.copied { color: #2e7d32; border-color: #2e7d32; }
+
+/* ── FOOTER ── */
+footer {
+  margin-inline: -16px;
+  padding: 22px clamp(16px, 4vw, 48px);
+  border-top: 1px solid var(--bdr);
+  background: var(--surf);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.f-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--fg2);
+}
+.f-copy { font-size: 12px; color: var(--fg3); }
+</style>
+
+<!-- NAV -->
+<nav>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#engagements">Engagements</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="wrap">
+    <div class="gold-bar"></div>
+    <h1>Karen Strouse</h1>
+    <p class="tagline">Independent telecommunications consultant, published author,<br>and advisor to carriers on five continents.</p>
+    <div class="hero-chips">
+      <span class="hchip">📍 Fort Lauderdale, FL</span>
+      <span class="hchip">✉️ karengstrouse@gmail.com <button class="c-copy" id="email-copy" onclick="copyEmail(this,'karengstrouse@gmail.com')">Copy</button></span>
+      <span class="hchip">📞 (954)&nbsp;667‑7889</span>
+    </div>
+  </div>
+</div>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-n">3</div>
+      <div class="stat-l">Books, Artech House</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">30<sup>+</sup></div>
+      <div class="stat-l">Years Consulting</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n" style="font-size:clamp(18px,3vw,26px);letter-spacing:-.5px">Fortune&nbsp;25</div>
+      <div class="stat-l">Clients Served</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">5</div>
+      <div class="stat-l">Continents</div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ABOUT -->
+  <section class="sec" id="about">
+    <div class="sec-hd">
+      <span class="sec-num" aria-hidden="true">01</span>
+      <h2 class="sec-title">About</h2>
+    </div>
+    <div class="about-body">
+      <p>Karen Strouse has spent more than three decades helping telecommunications providers navigate competitive markets. Her practice spans marketing strategy, business planning, mergers and acquisitions, executive education, and organizational redesign — with clients ranging from Fortune 25 carriers to emerging-market wireless startups across Latin America, the Middle East, and Asia.</p>
+      <p>Before founding her independent practice she served as Consulting Manager at Deloitte &amp; Touche and held senior roles at Bell Atlantic and Bell of Pennsylvania. She is the author of three industry books published by Artech House, a prolific contributor to telecom trade journals, and a speaker at international industry conferences.</p>
+    </div>
+    <div class="skills">
+      <div class="skill">Competitive Marketing</div>
+      <div class="skill">Business Planning</div>
+      <div class="skill">Branding &amp; Positioning</div>
+      <div class="skill">Mergers &amp; Acquisitions</div>
+      <div class="skill">Executive Training</div>
+      <div class="skill">Channel Management</div>
+      <div class="skill">Capital Management</div>
+      <div class="skill">Pricing Strategy</div>
+      <div class="skill">Market Segmentation</div>
+      <div class="skill">Business Process Redesign</div>
+      <div class="skill">RFP Development</div>
+      <div class="skill">Regulatory Analysis</div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="sec" id="experience">
+    <div class="sec-hd">
+      <span class="sec-num" aria-hidden="true">02</span>
+      <h2 class="sec-title">Experience</h2>
+    </div>
+    <div class="timeline">
+      <div class="tl">
+        <div class="tl-dot"></div>
+        <div class="tl-yr">1992–Present</div>
+        <div>
+          <div class="tl-role">Independent Consultant</div>
+          <div class="tl-org">Self-Employed</div>
+        </div>
+      </div>
+      <div class="tl">
+        <div class="tl-dot"></div>
+        <div class="tl-yr">1987–1992</div>
+        <div>
+          <div class="tl-role">Consulting Manager</div>
+          <div class="tl-org">Touche Ross / Deloitte &amp; Touche</div>
+        </div>
+      </div>
+      <div class="tl">
+        <div class="tl-dot"></div>
+        <div class="tl-yr">1974–1987</div>
+        <div>
+          <div class="tl-role">Director, Strategic Planning</div>
+          <div class="tl-org">Bell Atlantic</div>
+        </div>
+      </div>
+      <div class="tl">
+        <div class="tl-dot"></div>
+        <div class="tl-yr">1974–1987</div>
+        <div>
+          <div class="tl-role">Information Systems Professional</div>
+          <div class="tl-org">Bell of Pennsylvania</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENGAGEMENTS -->
+  <section class="sec" id="engagements">
+    <div class="sec-hd">
+      <span class="sec-num" aria-hidden="true">03</span>
+      <h2 class="sec-title">Sample Engagements</h2>
+    </div>
+    <div class="eng-group">
+      <div class="eng-group-hd">Marketing</div>
+      <div class="eng-grid">
+        <div class="eng-card">
+          <div class="eng-t">Competitive Marketing Seminar</div>
+          <div class="eng-d">Created and led on-site training for a Middle Eastern wireless provider undergoing transition to a competitive marketplace — covering planning strategies, business intelligence, pricing, and branding.</div>
+        </div>
+        <div class="eng-card">
+          <div class="eng-t">Re-Branding Initiative</div>
+          <div class="eng-d">Led re-branding of a marketing and operations supplier: competitive analysis, brand strategy, and communications emphasizing competitive differentiators.</div>
+        </div>
+        <div class="eng-card">
+          <div class="eng-t">Executive Marketing Seminar — Latin America</div>
+          <div class="eng-d">Created and led training for senior-level executives in marketing, operations, and technology, covering pricing, branding, and segmentation strategies for underdeveloped markets.</div>
+        </div>
+        <div class="eng-card">
+          <div class="eng-t">Channel Management Seminar — Asia</div>
+          <div class="eng-d">Prepared and led channel management training for a multibillion-dollar Asian telecommunications provider undergoing privatization.</div>
+        </div>
+        <div class="eng-card">
+          <div class="eng-t">Business Process Redesign</div>
+          <div class="eng-d">Redesigned the proposal process for a network management software provider to smooth workload, raise quality, and strengthen strategic decision-making.</div>
+        </div>
+        <div class="eng-card">
+          <div class="eng-t">Executive Materials &amp; Winning RFP</div>
+          <div class="eng-d">Prepared speeches, journal articles, and collateral for a global telco CEO; separately wrote the winning RFP response to supply prepaid phone cards to a major national retailer.</div>
+        </div>
+      </div>
+    </div>
+    <div class="eng-group">
+      <div class="eng-group-hd">Business Planning</div>
+      <div class="eng-grid">
+        <div class="eng-card">
+          <div class="eng-t">Merger Planning &amp; Public Offering</div>
+          <div class="eng-d">Prepared the business plan supporting the merger of two mid-sized telcos and their combined public offering — from strategy development through implementation planning.</div>
+        </div>
+        <div class="eng-card">
+          <div class="eng-t">Franchise Business Development</div>
+          <div class="eng-d">Prepared the business plan for a NASDAQ company to expand via franchising, enabling the sale of a significant line of business and improved strategic positioning.</div>
+        </div>
+        <div class="eng-card">
+          <div class="eng-t">Wireless Division Business Plan</div>
+          <div class="eng-d">Produced the business plan for a leading carrier's wireless subsidiary, which became the basis for the division's sale.</div>
+        </div>
+        <div class="eng-card">
+          <div class="eng-t">Acquisition Analysis</div>
+          <div class="eng-d">Conducted comprehensive acquisition analysis: regulatory briefings, technology assessment, market direction, and evaluation of candidates for strategic fit.</div>
+        </div>
+        <div class="eng-card">
+          <div class="eng-t">Capital Management Reengineering — Fortune 25</div>
+          <div class="eng-d">Reviewed internal and external capital management practices for a Fortune 25 carrier, improving investment decision-making under increasing competition and constrained capital.</div>
+        </div>
+        <div class="eng-card">
+          <div class="eng-t">Industry Analysis for State Association</div>
+          <div class="eng-d">Prepared a comprehensive regulatory and competitive report alerting a state telephone association's members to upcoming strategic and tactical challenges.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section class="sec" id="publications">
+    <div class="sec-hd">
+      <span class="sec-num" aria-hidden="true">04</span>
+      <h2 class="sec-title">Publications &amp; Presentations</h2>
+    </div>
+    <div class="pub-grp">
+      <div class="pub-label">Books</div>
+      <div class="books">
+        <div class="book">
+          <div class="book-spine"></div>
+          <div>
+            <a class="book-t" href="https://www.amazon.com/Customer-Centered-Telecommunications-Services-Marketing-Library/dp/1580538541" target="_blank" rel="noopener">Customer-Centered Telecommunications Services Marketing</a>
+            <div class="book-m">Artech House, Norwood, MA · August 2004</div>
+          </div>
+        </div>
+        <div class="book">
+          <div class="book-spine"></div>
+          <div>
+            <a class="book-t" href="https://www.amazon.com/Strategies-Success-Telecommunications-Marketplace-Library/dp/1580531423" target="_blank" rel="noopener">Strategies for Success in the New Telecommunications Marketplace</a>
+            <div class="book-m">Artech House Publishers, Norwood, MA · January 2001</div>
+          </div>
+        </div>
+        <div class="book">
+          <div class="book-spine"></div>
+          <div>
+            <a class="book-t" href="https://www.amazon.com/Marketing-Telecommunications-Services-Approaches-Environment/dp/158053015X" target="_blank" rel="noopener">Marketing Telecommunications Services: New Approaches for a Changing Environment</a>
+            <div class="book-m">Artech House, Norwood, MA · June 1999</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pub-grp">
+      <div class="pub-label">Selected Articles</div>
+      <div class="articles">
+        <div class="art"><div class="art-dot"></div><span class="art-title">Customer-Driven Universal Service</span><span class="art-venue">Colombian Telecom Magazine</span></div>
+        <div class="art"><div class="art-dot"></div><span class="art-title">Selling the Future: The New Rules of Technology Marketing</span><span class="art-venue">Colombian Telecom Magazine</span></div>
+        <div class="art"><div class="art-dot"></div><span class="art-title">Dollar Signs: Fundamental Market Changes Call for Fundamental Pricing Changes</span><span class="art-venue">Telephony</span></div>
+        <div class="art"><div class="art-dot"></div><span class="art-title">Full Court Press: Can Telecommunications Providers Win Both Justice and Profits?</span><span class="art-venue">America's Network</span></div>
+        <div class="art"><div class="art-dot"></div><span class="art-title">Reengineering Telecommunications Policy</span><span class="art-venue">Telephony</span></div>
+        <div class="art"><div class="art-dot"></div><span class="art-title">Winner Takes Enough: How To Compete with the Giants and Win</span><span class="art-venue">Phone+</span></div>
+        <div class="art"><div class="art-dot"></div><span class="art-title"><a href="https://www.channelpartnersonline.com/article/planning-measuring-managing-market-share/" target="_blank" rel="noopener" style="color:inherit">Planning, Measuring, Managing Market Share</a></span><span class="art-venue">Phone+</span></div>
+        <div class="art"><div class="art-dot"></div><span class="art-title">Weapons of Mass Marketing</span><span class="art-venue">Telephony</span></div>
+        <div class="art"><div class="art-dot"></div><span class="art-title">What If Your Office Vanishes?</span><span class="art-venue">Industry Week</span></div>
+        <div class="art"><div class="art-dot"></div><span class="art-title"><a href="https://www.tandfonline.com/doi/abs/10.1080/07399018908960159" target="_blank" rel="noopener" style="color:inherit">The Importance of Userware</a></span><span class="art-venue">Journal of Information Systems Management</span></div>
+      </div>
+    </div>
+    <div class="pub-grp">
+      <div class="pub-label">Conference Presentations</div>
+      <div class="talks">
+        <div class="talk"><div class="talk-t">"Customer-Centered VoIP Marketing"</div><div class="talk-v">Internet Telephony Conference and Expo East</div></div>
+        <div class="talk"><div class="talk-t">"Customer-Centered Telecommunications Services Marketing"</div><div class="talk-v">XI Congreso Nacional y XII Andino de Telecomunicaciones, Cartagena de Indias, Colombia</div></div>
+        <div class="talk"><div class="talk-t">"Positioning New Telecommunications Services for Profit"</div><div class="talk-v">Telecommunications Magazine Executive Seminars</div></div>
+        <div class="talk"><div class="talk-t">"Competitive Marketing"</div><div class="talk-v">XIV Congreso Nacional y V Andino de Telecomunicaciones y ANDICOM99, Cartagena, Colombia</div></div>
+        <div class="talk"><div class="talk-t">"Adding Real Value to the Telecommunications Network"</div><div class="talk-v">Caribbean Telecommunications Council</div></div>
+        <div class="talk"><div class="talk-t">"The New Capital Framework"</div><div class="talk-v">Caribbean Telecommunications Council</div></div>
+        <div class="talk"><div class="talk-t">"Benchmarking for Effectiveness"</div><div class="talk-v">Human Factors in Call Centers Conference</div></div>
+        <div class="talk"><div class="talk-t">"Telecommunications Disaster Recovery for Airports"</div><div class="talk-v">Airports Council International (ACI/InfoTel)</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OTHER WORKS -->
+  <section class="sec" id="other">
+    <div class="sec-hd">
+      <span class="sec-num" aria-hidden="true">05</span>
+      <h2 class="sec-title">Other Works</h2>
+    </div>
+    <div class="other-grid">
+      <div class="other-card">
+        <div class="other-type">eComic</div>
+        <div class="other-t">We The People: A Guide to American Democracy</div>
+        <div class="other-d">by Madison Plume · Amazon KDP, April 2025</div>
+      </div>
+      <div class="other-card">
+        <div class="other-type">eComic</div>
+        <div class="other-t">It's Not You, It's the Economy</div>
+        <div class="other-d">by Madison Plume · Amazon KDP, August 2025</div>
+      </div>
+      <div class="other-card">
+        <div class="other-type">eComic</div>
+        <a class="other-t" href="https://www.amazon.com/Sherlock-Hound-Case-Suspicious-Headline/dp/B0H15BGXW2/" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">Sherlock Hound and the Case of the Suspicious Headline</a>
+        <div class="other-d">by Madison Plume · Amazon KDP</div>
+      </div>
+      <div class="other-card">
+        <div class="other-type">Book</div>
+        <div class="other-t">The Edges of the Mediterranean</div>
+        <div class="other-d">Self-published · May 2002</div>
+      </div>
+      <div class="other-card">
+        <div class="other-type">Play / Screenplay</div>
+        <div class="other-t">What You Ask For</div>
+        <div class="other-d">Unpublished</div>
+      </div>
+      <div class="other-card">
+        <div class="other-type">Screenplay</div>
+        <div class="other-t">Life Lines</div>
+        <div class="other-d">Unpublished</div>
+      </div>
+      <div class="other-card">
+        <div class="other-type">Online Game</div>
+        <div class="other-t">Citizenship Quest</div>
+        <div class="other-d">US Naturalization Game · 2026</div>
+      </div>
+      <div class="other-card">
+        <div class="other-type">Sailing Journal</div>
+        <div class="other-t">KarenandArt.com</div>
+        <div class="other-d">Active archive</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="sec" id="education">
+    <div class="sec-hd">
+      <span class="sec-num" aria-hidden="true">06</span>
+      <h2 class="sec-title">Education</h2>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="edu-deg">MBA</div>
+        <div class="edu-field">Finance</div>
+        <div class="edu-school">Saint Joseph's University<br>Philadelphia, PA</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-deg">MA</div>
+        <div class="edu-field">Communications</div>
+        <div class="edu-school">Temple University<br>Philadelphia, PA</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-deg">BA</div>
+        <div class="edu-field">Communications</div>
+        <div class="edu-school">Temple University<br>Philadelphia, PA</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-deg">CSP</div>
+        <div class="edu-field">Certified Systems Professional</div>
+        <div class="edu-school">&nbsp;</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="sec" id="contact">
+    <div class="sec-hd">
+      <span class="sec-num" aria-hidden="true">07</span>
+      <h2 class="sec-title">Contact</h2>
+    </div>
+    <div class="contact-row">
+      <span class="c-item">✉️ karengstrouse@gmail.com <button class="c-copy" onclick="copyEmail(this,'karengstrouse@gmail.com')">Copy</button></span>
+      <span class="c-item">📞 (954)&nbsp;667‑7889</span>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <span class="f-name">Karen Strouse</span>
+  <span class="f-copy">&copy; 2026 · Independent Telecommunications Consultant</span>
+</footer>
+
+<script>
+function copyEmail(btn, addr) {
+  navigator.clipboard.writeText(addr).then(function() {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(function() { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  }).catch(function() {
+    try {
+      var r = document.createRange();
+      r.selectNodeContents(btn.parentNode);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(r);
+    } catch(e) {}
+  });
+}
+</script>
